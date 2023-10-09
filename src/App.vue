@@ -1,6 +1,10 @@
 <script setup>
 import {useStore} from 'vuex'
-import {computed} from 'vue'
+import {computed, ref, onMounted, onUnmounted} from 'vue'
+import { useMouse} from './mouse'
+import Comp from './Comp.vue';
+import FetchComp from './FetchComp.vue';
+
 let store = useStore();
 // we use the computed property to keep the reactivity of the state 
 let count = computed(()=> store.state.count);
@@ -12,11 +16,14 @@ function printCount(){
   console.log(count.value)
 }
 
-/*
-console.log(counter); */
+const {x, y} = useMouse();
+
+
+
 </script>
 
 <template>
+  
   <div>
   <h1>this is a test</h1>
   <!-- we can use the store in the component with the $store accessor which lives inside this-->
@@ -28,6 +35,12 @@ console.log(counter); */
 
   <p>{{ count }}</p>
   <p>{{ $store.getters.getDoubleCount }}</p>
+
+  <hr />
+  <h2>{{ x+" - "+y }}</h2>
+  <Comp v-for="i in 3" :key="i">{{ i }}</Comp>
+  <!--<FetchComp/>-->
+  <RouterView/>
 </div>
 </template>
 
